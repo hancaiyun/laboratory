@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript" src="scripts/jquery/jquery-1.7.1.js"></script>
+<link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css">
+<link href="style/authority/common_style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="scripts/authority/commonAll.js"></script>
+<script type="text/javascript" src="scripts/jquery/jquery-1.4.4.min.js"></script>
+<script src="scripts/My97DatePicker/WdatePicker.js" type="text/javascript" defer="defer"></script>
+<script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		/*
+		 * 提交
+		 */
+		$("#submitbutton").click(function() {
+			if(validateForm()){
+				noticeSubmit();
+			}
+		});
+		
+		/*
+		 * 取消
+		 */
+		$("#cancelbutton").click(function() {
+			/**  关闭弹出iframe  **/
+			window.parent.$.fancybox.close();
+		});
+		
+		var result = 'null';
+		if(result =='success'){
+			/**  关闭弹出iframe  **/
+			window.parent.$.fancybox.close();
+		}
+	});
+	
+	/** 检测用户名是否存在并提交form  **/
+	function noticeSubmit(){
+		var notice=$("#add_notice").val();
+		//alert(notice);
+		alert("controller待写(addNotice.do)");
+		if(note!="" && name!="" && gender!="" && position!="" && tel!=""){
+			$.ajax({
+				type:"POST",
+				url:"http://localhost:8080/laboratory/user/addNotice.do",
+				data:{"notice":notice},
+				dataType : "json",
+				success:function(data){
+ 					alert(data.status);
+					// 如果返回数据不为空，更改“信息”
+					if(data.status=="1"){
+					}else if(data.status=="0"){
+						alert("新增公告成功");
+					}
+				},error:function(){
+					//异常处理
+					alert("新增公告失败");
+				}
+			});
+		}
+	}
+	
+	/** 验证  **/
+	function validateForm(){
+		//alert(i);
+		if($("#add_notice").val()==""){
+			alert("请输入新增公告内容 ");
+			return false;
+		}else{
+			return true;
+		}
+	}
+</script>
+<style type="text/css">
+    	#add_notice{
+    			width: 500px;
+    			height: 100px;
+    			resize: none;
+    			font-family: "微软雅黑";
+    			font-size: 18px;
+    	}
+    </style>
+</head>
+<body>
+<form id="submitForm" name="submitForm" action="/xngzf/archives/initFangyuan.action" method="post">
+	<input type="hidden" name="fyID" value="14458625716623" id="fyID"/>
+	<div id="container">
+		<div id="nav_links">
+			当前位置：公告管理&nbsp;>&nbsp;<span style="color: #1A5CC6;">添加新公告</span>
+			<div id="page_close">
+				<a href="javascript:parent.$.fancybox.close();">
+					<img src="images/common/page_close.png" width="20" height="20" style="vertical-align: text-top;"/>
+				</a>
+			</div>
+		</div>
+		公告内容<br/>
+		<div class="ui_content">
+			<table  width="100%"  lign="left"  border="0">
+				<tr>
+					<td class="ui_text_lt">
+						<textarea type="text"  id="add_notice" ></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui_text_lt">
+						&nbsp;<input id="submitbutton" type="button" value="提交" class="ui_input_btn01" />
+						&nbsp;<input id="cancelbutton" type="button" value="取消" class="ui_input_btn01"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+</body>
+</html>
